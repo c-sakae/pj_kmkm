@@ -25,18 +25,20 @@ class Button:
   - スティック入力素子の追加（ボタンの増加を抑え、あるいはボタンを不要とし、使用するピン数を削減）
 --------------------
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'''
-# import here
+from gpiozero import Button as Btn
+from gpiozero import LED
 
 class Led:
 	def __init__(self, pin):
-		pass
+		self.l = LED(pin)
 		
 	def on(self):
-		pass
+		self.l.on()
 		
 	def off(self):
-		pass
+		self.l.off()
 		
 class Button:
 	def __init__(self, pin, cls):
-		pass
+		self.b = Btn(pin)
+		self.b.when_pressed = cls.push_event
