@@ -8,7 +8,7 @@ line-bot-sdk(python)の公式サイトより、Synopsisをほぼ丸コピ。
 		scr_flask.shにて、flask run するときにimportされるファイルである。
 	- "/"にGETがrequestされると、文字列（htmlドキュメント？）を返す。
 	- "/callback"にMessaginAPIのメッセージrequestがPOSTされると、
-		Appサーバに相当する（？）callbackモジュールにcallbackし、
+		Appサーバに相当する（？）controllerモジュールが返信メッセージを作成し、
 		受け取った文字列をresponseとして返す。
 	- シェルでpython app.pyを実行すると、ポート5100を使用する。
 処理順：
@@ -83,7 +83,7 @@ def handle_message(event):
         line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
-                messages=[TextMessage(text=ctrl.respMsgEvnt(event.message.text))]
+                messages=[TextMessage(text=ctrl.respMsgEvnt(event.message.text, event.source.user_id))]
             )
         )
 #--------------------------------------------------

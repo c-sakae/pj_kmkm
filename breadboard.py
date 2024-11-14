@@ -18,11 +18,11 @@ class Led:
 	def on(self): # ledを点灯させるメソッド
 	def off(self): # ledを消灯させるメソッド
 class Button:
-	def __init__(self, pin, cls): # 押下時にclsクラスのpush_event()メソッドを実行する
+	def __init__(self, pin, cls): # 押下時にpush()メソッドを実行するようイベントを登録
 --------------------
 拡張
-  - LED数の増加（プッシュボタンも増加してしまう -> ピン数が不足するか？）
-  - スティック入力素子の追加（ボタンの増加を抑え、あるいはボタンを不要とし、使用するピン数を削減）
+  - LEDをLCDに置き換え（可視性は低下するが、ユーザ数の変動に耐えられる。）
+  - ボタン数を１〜２つに抑え、スティック入力素子を追加（ユーザ数の変動に耐えられる。）
 --------------------
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'''
 from gpiozero import Button as Btn
@@ -41,4 +41,12 @@ class Led:
 class Button:
 	def __init__(self, pin, cls):
 		self.b = Btn(pin)
-		self.b.when_pressed = cls.push_event
+		self.b.when_pressed = self.pushed
+		
+		self.cls = cls
+		self.pin = pin
+		
+	def pushed(self):
+		# ここに処理を追加して、チャタリングを考慮したプログラムに変えたい。
+		self.cls.push_event(self.pin)
+
